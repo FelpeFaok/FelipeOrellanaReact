@@ -1,0 +1,9 @@
+.carrito {
+    display: flex;
+    align-items: center;
+}
+
+.carrito>img {
+    width: 35px;
+    filter: invert(1);
+}

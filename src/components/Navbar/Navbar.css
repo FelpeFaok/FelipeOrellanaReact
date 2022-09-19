@@ -1,0 +1,26 @@
+#navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: linear-gradient(
+        121deg,
+        rgba(76, 93, 229, 1) 0%,
+        rgba(31, 29, 67, 1) 46%,
+        rgba(221, 55, 185, 1) 96%);
+        color: #fff;
+}
+#navbar>ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    align-items: center;
+
+}
+#navbar>ul>li {
+    justify-content: space-around;
+    padding: 10px;
+}
+#navbar>ul>li>a {
+    color: #fff;
+    text-decoration: none;
+}
