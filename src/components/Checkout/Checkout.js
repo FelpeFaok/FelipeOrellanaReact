@@ -52,7 +52,7 @@ const Checkout = () => {
                 const orderRef = collection(db, 'orders')
                 const orderAdded = await addDoc(orderRef, objOrder)
                 swal({ 
-                    title: 'Su Orden se a procesado con exito',
+                    title: 'Su orden se ha procesado con exito',
                     icon: 'success',
                     text: `El id de su orden es: ${orderAdded.id}`,
                     buttons: 'Cerrar',
@@ -74,7 +74,7 @@ const Checkout = () => {
 
     if(loading) {
         return (<>
-        <h1>Procesado Orden de Compra</h1>
+        <h1>Procesando Orden de Compra</h1>
         <picture>
             <img src="https://media.tenor.com/XK37GfbV0g8AAAAi/loading-cargando.gif" ></img>
         </picture>
