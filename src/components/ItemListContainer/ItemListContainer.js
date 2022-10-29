@@ -1,55 +1,62 @@
-import { useState, useEffect } from 'react'
-import { getProducts } from '../../asyncMock'
+import './ItemListContainer.css'
+import { useState, useEffect, useContext } from 'react'
 import ItemList from '../ItemList/ItemList'
-import { useParams } from 'react-router-dom'
-import { getProductsByCategory } from '../../asyncMock'
+import { useParams } from 'react-router-dom' 
+import { getDocs, collection, query, where } from 'firebase/firestore'
+import { db } from '../../services/firebase'
+import swal from 'sweetalert'
 
 const ItemListContainer = ({ greeting }) => {
     const [products, setProducts] = useState([])
-    const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
 
+
     const { categoryId } = useParams()
-    console.log(categoryId)
 
     useEffect(() => {
-        if(!categoryId) {
-            getProducts().then(res => {
-                console.log(res)
-                setProducts(res)
-            }).catch(error => {
-                console.log(error)
-                setError(true)
-            }).finally(() => {
-                setLoading(false)
+        setLoading(true)
+
+        const collectionRef = categoryId 
+                ? query(collection(db, 'products'), where('category', '==', categoryId))
+                : collection(db, 'products')
+  
+
+        getDocs(collectionRef).then(response => {
+            console.log(response)
+
+            const productsAdapted = response.docs.map(doc => {
+                const data = doc.data()
+                return { id: doc.id, ...data}
             })
-        } else {
-            getProductsByCategory(categoryId).then(res => {
-                console.log(res)
-                setProducts(res)
-            }).catch(error => {
-                console.log(error)
-                setError(true)
-            }).finally(() => {
-                setLoading(false)
-            })
-        }
+
+            setProducts(productsAdapted)
+        })
+        .catch(error => {
+            swal({ 
+            title: '¡No se encontraron los productos!',
+            icon: 'error',
+            buttons: 'Cerrar',
+        })
+        })
+        .finally(() => {
+            setLoading(false)
+        })
     }, [categoryId])
 
-    if(loading) {
-        return <h1>Loading...</h1>
-    }
-    
-
-    if(error) {
-        return <h1>Hubo un error</h1>
-    }
-
+    if(loading && true) {
+        return (
+        <>
+         <h1>Cargando productos...</h1>
+        <picture>
+        <img src="https://media.tenor.com/XK37GfbV0g8AAAAi/loading-cargando.gif" ></img>
+        </picture>
+        </>)
+        }
 
     return (
-        <div className="ItemListContainer">
-            <h1>{greeting}</h1>
-            <ItemList products={products}/>
+        <div>
+            <h1>{`${greeting} ${categoryId || ''}`}</h1>
+            <ItemList products={products} />
         </div>
     )
 }

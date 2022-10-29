@@ -1,9 +1,9 @@
-.carrito {
+.CartWidget {
     display: flex;
     align-items: center;
 }
 
-.carrito>img {
+.CartImg {
     width: 35px;
     filter: invert(1);
 }
