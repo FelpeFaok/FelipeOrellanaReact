@@ -19,12 +19,23 @@ const ItemDetail = ({ id, name, img, category, description, price, stock }) => {
         }
 
         addItem(productToAdd)
-        swal({ 
-            title: '¡Producto agregado!',
-            text: `Se han agregado ${productToAdd.quantity} de ${productToAdd.name} al carrito`,
-            icon: 'success',
-            buttons: 'Cerrar',
-        })
+        if (quantity > 0){
+            swal({ 
+                title: '¡Producto agregado!',
+                text: `Se han agregado ${productToAdd.quantity} de ${productToAdd.name} al carrito`,
+                icon: 'success',
+                buttons: 'Cerrar',
+            })
+        }else {
+            swal({ 
+                title: 'Productos sin Stock',
+                icon: 'warning',
+                buttons: 'Cerrar',
+            })
+        }
+
+
+
     }
 
     const productAddedQuantity = getProductQuantity(id)
